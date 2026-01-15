@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ajaxfile</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+        }
+        .container{
+            background-color: #fff;
+            padding: 20px;
+            margin-top: 50px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            border: #333 solid 1px;
+            height: 500px;
+        }
+        h2{
+            color: #333;
+            padding-top: 20px;
+        }
+        button{
+            padding: 10px 15px;
+            margin: 8px;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            width: 80%;
+        }
+        #output{
+           text-align: center; 
+           background: white;
+           height: 200px;
+           overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <h2>Ajax Example</h2>
+    <button onclick="plainAjax()">Load Plain Ajax</button>
+    <button onclick="ajaxJquery()">Load Ajax with Jquery</button>
+    <button onclick="getJson()">Load the getJSON</button>
+    <button onclick="parseJson()">Load the parseJSON</button>
+    <p id="output">Output will be appear here</p>
+    </div>
+</body>
+<script>
+     function plainAjax(){
+     var x = new XMLHttpRequest();
+     x.open("GET","textfile.txt",true);
+     x.onload=()=>output.innerText=x.responseText;
+     x.send();
+   }
+   function ajaxJquery(){
+     $.ajax({url:"textfile.txt",success:d=>output.innerText=d});
+   }
+   function getJson(){
+     $.getJSON("data.json",d=>output.innerText=JSON.stringify(d,null,2));
+   }
+   function parseJson() {
+  $.get("data.json", function (data) {
+    var obj = (typeof data === "string") ? JSON.parse(data) : data;
+    output.innerText = obj.name + " - " + obj.city;
+  });
+}
+
+</script>
+</html>
