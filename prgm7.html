@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>JSON & CSV Converter</title>
+<style>
+body{
+font-family:Arial;
+background:#eef;
+padding:30px;
+}
+h3{
+color:#2c3e50;
+}
+h1{
+text-align:center;
+color:#34495e;
+}
+textarea,input{
+border:1px solid #3498db;
+}
+button{
+ background:#3498db;
+ color:white;
+ border:none;
+ padding:6px;
+ cursor:pointer;
+}
+button:hover{
+background:#2980b9;
+}
+.box{
+ background:white;
+ border:1px solid #ccc;
+ padding:30px;
+ margin-bottom:15px;
+}
+</style>
+</head>
+
+<body>
+    <h1>JSON and Utilities</h1>
+<h3>JSON to Object</h3>
+<textarea id="j1"></textarea>
+<button onclick="j2o()">Convert</button>
+<div id="o1" class="box"></div>
+
+<h3>JSON to Date</h3>
+<input id="d">
+<button onclick="j2d()">Convert</button>
+<div id="o2" class="box"></div>
+
+<h3>JSON to CSV</h3>
+<textarea id="j2"></textarea>
+<button onclick="j2c()">Convert</button>
+<div id="o3" class="box"></div>
+
+<h3>CSV to JSON</h3>
+<textarea id="c1"></textarea>
+<button onclick="c2j()">Convert</button>
+<div id="o4" class="box"></div>
+
+<h3>String Hash</h3>
+<input id="s">
+<button onclick="hash()">Create</button>
+<div id="o5" class="box"></div>
+
+<script>
+function j2o(){ o1.innerText=JSON.stringify(JSON.parse(j1.value),null,2); }
+function j2d(){ o2.innerText=new Date(d.value); }
+
+function j2c(){
+let a=JSON.parse(j2.value), h=Object.keys(a[0]);
+o3.innerText=h.join(",")+"\n"+a.map(x=>h.map(k=>x[k]).join(",")).join("\n");
+}
+
+function c2j(){
+let r=c1.value.split("\n"), h=r.shift().split(",");
+let j=r.map(x=>{let o={};x.split(",").forEach((v,i)=>o[h[i]]=v);return o;});
+o4.innerText=JSON.stringify(j,null,2);
+}
+
+async function hash(){
+let b=new TextEncoder().encode(s.value);
+let h=await crypto.subtle.digest("SHA-256",b);
+o5.innerText=[...new Uint8Array(h)].map(x=>x.toString(16).padStart(2,"0")).join("");
+}
+</script>
+</body>
+</html>
