@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+ body{ font-family: Arial; background:#eef2f3; display:flex;
+ justify-content:center;margin-top:50px;}
+ .box{ background:white; padding:20px; border-radius:12px; 
+box-shadow:0 0 10px rgba(0,0,0,0.2); width:260px; text-align:center;}
+ input,select,button{
+ width:90%; padding:8px; margin:6px; border-radius:6px;
+ border:1px solid #bbb;
+ }
+ button{
+ background:#00ff91; color:white;cursor:pointer;
+ }
+ button:hover{background:#005ec2;}
+</style>
+</head>
+<body>
+<div class="box">
+<h3>Simple Calculator</h3>
+<input id="n1" type="number" placeholder="Number 1">
+<input id="n2" type="number" placeholder="Number 2 (if needed)">
+<select id="op">
+ <option value="sum">Sum</option>
+ <option value="diff">Difference</option>
+<option value="prod">Product</option>
+ <option value="quot">Quotient</option>
+ <option value="rem">Remainder</option>
+ <option value="pow">Power</option>
+ <option value="sq">Square</option>
+ <option value="sqrt">Square Root</option>
+</select>
+<button onclick="calc()">Calculate</button>
+<p id="out"></p>
+</div>
+<script>
+function calc(){
+ let a=parseFloat(n1.value);
+ let b=parseFloat(n2.value);
+ let o=op.value, r;
+if(o=='sum') r=a+b;
+ else if(o=='diff') r=a-b;
+ else if(o=='prod') r=a*b;
+ else if(o=='quot') r=a/b;
+ else if(o=='rem') r=a%b;
+ else if(o=='pow') r=Math.pow(a,b);
+ else if(o=='sq') r=a*a;
+ else if(o=='sqrt') r=Math.sqrt(a);
+out.innerHTML='Result: '+r;
+}
+</script>
+</body>
+</html>
