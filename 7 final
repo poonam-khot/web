@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      background: black;
+      color: white;
+      padding: 10px;
+    }
+    .box {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
+    textarea, input {
+      width: 100%;
+      padding: 8px;
+      margin: 8px 0;
+    }
+    button {
+      padding: 8px 12px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    pre {
+      background: #f0f0f0;
+      padding: 10px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Simple Converter</h1>
+
+<div class="box">
+  <h3>1. JSON → Object</h3>
+  <textarea id="j1"></textarea>
+  <button onclick="toObj()">Convert</button>
+  <pre id="o1"></pre>
+</div>
+
+<div class="box">
+  <h3>2. JSON Date → Date</h3>
+  <textarea id="j2"></textarea>
+  <button onclick="toDate()">Convert</button>
+  <pre id="o2"></pre>
+</div>
+
+<div class="box">
+  <h3>3. JSON ↔ CSV</h3>
+  <textarea id="j3"></textarea>
+  <button onclick="jsonToCsv()">JSON → CSV</button>
+  <pre id="o3"></pre>
+
+  <textarea id="j4"></textarea>
+  <button onclick="csvToJson()">CSV → JSON</button>
+  <pre id="o4"></pre>
+</div>
+
+<div class="box">
+  <h3>4. Hash String</h3>
+  <input id="h1" placeholder="Enter text">
+  <button onclick="hashText()">Hash</button>
+  <pre id="o5"></pre>
+</div>
+
+<script>
+  function show(id, value) {
+    document.getElementById(id).style.display = "block";
+    document.getElementById(id).textContent = value;
+  }
+
+  function toObj() {
+    try {
+      show("o1", JSON.stringify(JSON.parse(j1.value), null, 2));
+    } catch {
+      show("o1", "Invalid JSON");
+    }
+  }
+
+  function toDate() {
+    try {
+      show("o2", new Date(JSON.parse(j2.value).date));
+    } catch {
+      show("o2", "Invalid");
+    }
+  }
+
+  function jsonToCsv() {
+    try {
+      let data = JSON.parse(j3.value);
+      let keys = Object.keys(data[0]);
+      let csv = keys.join(",") + "\n";
+
+      data.forEach(obj => {
+        csv += keys.map(k => obj[k]).join(",") + "\n";
+      });
+
+      show("o3", csv);
+    } catch {
+      show("o3", "Invalid JSON");
+    }
+  }
+
+  function csvToJson() {
+    try {
+      let rows = j4.value.trim().split("\n");
+      let keys = rows[0].split(",");
+
+      let json = rows.slice(1).map(row => {
+        let values = row.split(",");
+        let obj = {};
+        keys.forEach((k, i) => obj[k] = values[i]);
+        return obj;
+      });
+
+      show("o4", JSON.stringify(json, null, 2));
+    } catch {
+      show("o4", "Invalid CSV");
+    }
+  }
+
+  function hashText() {
+    show("o5", CryptoJS.SHA256(h1.value).toString());
+  }
+</script>
+
+</body>
+</html>
