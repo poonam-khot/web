@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Simple Converter</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
+<style>
+body{
+    font-family: Arial;
+    padding: 20px;
+}
+
+.box{
+    border: 1px solid lightgray;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+}
+
+h1{
+    text-align: center;
+    background: black;
+    color: white;
+    padding: 10px;
+}
+
+textarea, input{
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+}
+
+button{
+    padding: 8px 12px;
+    background: blue;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+pre{
+    background: lightgray;
+    padding: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Simple Converter</h1>
+
+<div class="box">
+<h3>JSON → Object</h3>
+<textarea id="json1"></textarea>
+<button onclick="jsonToObj()">Convert</button>
+<pre id="out1"></pre>
+</div>
+
+<div class="box">
+<h3>JSON Date → Date</h3>
+<textarea id="json2"></textarea>
+<button onclick="jsonToDate()">Convert</button>
+<pre id="out2"></pre>
+</div>
+
+<div class="box">
+<h3>JSON → CSV</h3>
+<textarea id="json3"></textarea>
+<button onclick="jsonToCSV()">Convert</button>
+<pre id="out3"></pre>
+</div>
+
+<div class="box">
+<h3>Hash String</h3>
+<input id="text1" placeholder="Enter text">
+<button onclick="makeHash()">Hash</button>
+<pre id="out4"></pre>
+</div>
+
+<script>
+function jsonToObj(){
+    let obj = JSON.parse(json1.value);
+    out1.textContent = JSON.stringify(obj, null, 2);
+}
+
+function jsonToDate(){
+    let obj = JSON.parse(json2.value);
+    out2.textContent = new Date(obj.date);
+}
+
+function jsonToCSV(){
+    let arr = JSON.parse(json3.value);
+    let keys = Object.keys(arr[0]);
+    let csv = keys.join(",") + "\n";
+
+    arr.forEach(o=>{
+        csv += keys.map(k=>o[k]).join(",") + "\n";
+    });
+
+    out3.textContent = csv;
+}
+
+function makeHash(){
+    out4.textContent = CryptoJS.SHA256(text1.value);
+}
+</script>
+
+</body>
+</html>
+7th
